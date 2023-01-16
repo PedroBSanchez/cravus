@@ -1,0 +1,29 @@
+{
+  "name": "cravus",
+  "version": "1.0.0",
+  "description": "Project to manage inventory and orders from Cravus",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "npx nodemon src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PedroBSanchez/cravus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PedroBSanchez/cravus/issues"
+  },
+  "homepage": "https://github.com/PedroBSanchez/cravus#readme",
+  "dependencies": {
+    "ts-node": "^10.9.1",
+    "tsc": "^2.0.4",
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
