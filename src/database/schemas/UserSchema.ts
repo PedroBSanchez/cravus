@@ -22,6 +22,6 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-const UsersModelo = model<User>("Users", UserSchema);
+const UsersModel = model<User>("Users", UserSchema);
 
-export { UsersModelo, UserSchema };
+export { UsersModel, UserSchema };
