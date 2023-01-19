@@ -1,14 +1,14 @@
 import { create } from "ts-node";
 
 class Item {
-  public code: string;
+  public code: number;
   public description: string;
   public value: number;
   public amount: number;
   public createdAt: Date;
 
   constructor(
-    code: string,
+    code: number,
     description: string,
     value: number,
     amount: number,
