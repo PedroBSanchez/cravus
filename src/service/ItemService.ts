@@ -1,3 +1,4 @@
+import { InterfaceCreateItem } from "../interface/ItemsInterface";
 import { ItemRepository } from "../repository/ItemRepository";
 
 class ItemService {
@@ -7,7 +8,7 @@ class ItemService {
     this.itemRepository = new ItemRepository();
   }
 
-  public async create(): Promise<any> {}
+  public async create(newItem: InterfaceCreateItem): Promise<any> {}
 }
 
 export { ItemService };

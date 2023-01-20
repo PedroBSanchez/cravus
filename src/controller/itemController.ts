@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { Request, Response } from "express";
+import { InterfaceCreateItem } from "../interface/ItemsInterface";
 import { ItemService } from "../service/ItemService";
 
 const router = Router();
@@ -20,8 +21,12 @@ class ItemController {
   }
 
   useRoutes(): void {
-    this.router.get("/", (req: any, res) => {
-      return res.status(200).send("ok");
+    this.router.get("/create", async (req: any, res) => {
+      this.authMiddleware(req, res);
+
+      const newItem: InterfaceCreateItem = req.body;
+
+      const createItem = await this.itemService.create(newItem);
     });
   }
 }
