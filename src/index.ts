@@ -1,6 +1,7 @@
 import { config } from "dotenv";
 import express from "express";
 import { itemControllerRoutes } from "./controller/itemController";
+import { orderControllerRoutes } from "./controller/orderController";
 import { userControllerRoutes } from "./controller/userController";
 import { connectToDatabase } from "./database/Mongo";
 
@@ -17,6 +18,7 @@ const main = async () => {
 
   app.use("/api/users", userControllerRoutes);
   app.use("/api/items", itemControllerRoutes);
+  app.use("/api/orders", orderControllerRoutes);
 
   ////////
 

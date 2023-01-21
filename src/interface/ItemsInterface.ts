@@ -1,7 +1,15 @@
 interface InterfaceCreateItem {
   description: string;
   value: number;
-  amout: number;
+  amount: number;
+  code: any;
 }
 
-export { InterfaceCreateItem };
+interface InterfaceEditItem {
+  id: string;
+  description: string;
+  value: number;
+  amount: number;
+}
+
+export { InterfaceCreateItem, InterfaceEditItem };
