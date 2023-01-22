@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { InterfaceOrder } from "../interface/OrderInterface";
 import { Order } from "../models/Order";
 import { OrderService } from "../service/OrderService";
 
@@ -20,8 +21,12 @@ class OrderController {
   }
 
   useRoutes(): void {
-    this.router.get("/create", (req: any, res) => {
-      //Receber dados do pedido -> para cada item dar baixa na quantidade
+    this.router.get("/create", async (req: any, res) => {
+      this.authMiddleware();
+      const newOrder: InterfaceOrder = req.body;
+      const userId: string = req.id;
+
+      const orderSave = await this.orderService.create(newOrder, userId);
 
       return res.status(200).send("ok");
     });

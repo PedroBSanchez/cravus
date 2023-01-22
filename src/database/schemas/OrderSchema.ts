@@ -10,6 +10,7 @@ const OrderSchema = new Schema<Order>(
     total: { type: Number, required: true },
     createdAt: { type: Date, default: Date.now },
     seller: { type: Object, required: true },
+    code: { type: Number, default: 0 },
   },
   {
     collection: "Orders",

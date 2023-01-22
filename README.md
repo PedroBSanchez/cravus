@@ -2,33 +2,16 @@
 
 Project to manage inventory and orders from Cravus
 
-Usuarios : {
-nome
-email
-password
-createdAt
-codigo
-}
+Utils:
 
-Produtos : {
-\_id
-codigo
-descricao
-valorUnitario
-quantidade
-createdAt
-}
-
-Pedidos : {
-
-    id
-    vendedor : Nome/cod
-    cliente
-    cidade
-    produtos : [
-        {codigo, descricao, valorUnitario},...
-    ]
-    valorTotal
-    createdAt
-
-}
+    const options = {
+      method: "PUT",
+      url: `${process.env.REACT_APP_BASE_URL}/api/users/addstock`,
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("tokenApi")}`,
+        "Content-Type": "application/json",
+      },
+      data: { stock: newStock },
+    };
+    await axios
+      .request(options)

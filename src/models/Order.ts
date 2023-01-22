@@ -5,13 +5,15 @@ class Order {
   public total: number;
   public createdAt: Date;
   public seller: object;
+  public code: number;
   constructor(
     city: string,
     client: string,
     items: Array<object>,
     total: number,
     createdAt: Date,
-    seller: object
+    seller: object,
+    code: number
   ) {
     this.city = city;
     this.client = client;
@@ -19,6 +21,7 @@ class Order {
     this.total = total;
     this.createdAt = createdAt;
     this.seller = seller;
+    this.code = code;
   }
 }
 
