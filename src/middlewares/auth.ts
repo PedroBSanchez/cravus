@@ -2,8 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import Jwt, { decode } from "jsonwebtoken";
 import { config } from "dotenv";
 
-module.exports = (req: any, res: Response, next: NextFunction) => {
+module.exports = (req: any, res: Response, next: any) => {
   const authHeader = req.headers.authorization;
+
   const secret: any = process.env.JWT_SECRET;
 
   if (!authHeader) return res.status(401).send({ error: "No token provided" });
@@ -24,6 +25,5 @@ module.exports = (req: any, res: Response, next: NextFunction) => {
     if (err) return res.status(401).send({ error: "Token invalid" });
 
     req.userId = decoded.id;
-    console.log(decoded.id);
   });
 };

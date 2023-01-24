@@ -21,10 +21,36 @@ class OrderRepository {
     this.userModel = UsersModel;
   }
 
-  public async createOrder() {}
+  public async createOrder(newOrder: any) {
+    let seq: any = await this.counterModel.findOne({ name: "orderCounter" });
 
-  public async findUser(userId: string) {
-    return await this.userModel.findOne({ _id: userId }, "name email");
+    await this.counterModel.updateOne(
+      { name: "orderCounter" },
+      { $set: { seq: seq.seq + 1 } }
+    );
+
+    newOrder.code = seq.seq;
+
+    return await this.model.create(newOrder);
+  }
+
+  public async findUser(userId: object): Promise<any> {
+    return await this.userModel.findOne({ id: userId }, "name email");
+  }
+
+  public async itemWriteOff(item: any): Promise<any> {
+    //Encontrar item no estoque verificar valor e dar baixa
+    const itemFound = await this.itemModel.findOne({ code: item.code });
+
+    if (itemFound) {
+      //Dar Baixa e retornar item
+
+      await this.itemModel.updateOne(
+        { _id: itemFound.id },
+        { $set: { amount: itemFound.amount - item.amount } }
+      );
+    }
+    return itemFound;
   }
 }
 

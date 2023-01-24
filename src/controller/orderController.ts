@@ -21,14 +21,20 @@ class OrderController {
   }
 
   useRoutes(): void {
-    this.router.get("/create", async (req: any, res) => {
-      this.authMiddleware();
+    this.router.post("/create", async (req: any, res) => {
+      this.authMiddleware(req, res);
+
       const newOrder: InterfaceOrder = req.body;
-      const userId: string = req.id;
+
+      const userId: any = req.userId;
 
       const orderSave = await this.orderService.create(newOrder, userId);
 
-      return res.status(200).send("ok");
+      if (orderSave.error) {
+        return res.status(400).send(orderSave);
+      }
+
+      return res.status(200).send({ success: "Order created successfully" });
     });
   }
 }
