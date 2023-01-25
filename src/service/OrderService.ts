@@ -1,3 +1,4 @@
+import { ItemModel } from "../database/schemas/ItemSchema";
 import { InterfaceOrder } from "../interface/OrderInterface";
 import { OrderRepository } from "../repository/OrderRepository";
 
@@ -24,39 +25,49 @@ class OrderService {
       return { error: "Order without items" };
     }
 
-    var totalPrice = { price: 0 };
-    newOrder.items.forEach(async (item: any) => {
-      const orderItem = await this.orderRepository.itemWriteOff(item);
-
-      const orderItemObject = {
-        description: orderItem.description,
-        code: orderItem.code,
-        amount: item.amount,
-        value: orderItem.value,
-      };
-
-      if (orderItem) {
-        await orderItems.push(orderItemObject);
-      }
-    });
-
-    console.log(totalPrice.price);
-    //Calcular valor total do pedido
-
-    // Criar pedido
-
-    let newOrderObject = {
+    let newOrderObject: any = {
       city: newOrder.city,
       client: newOrder.client,
-      items: orderItems,
-      total: totalPrice.price,
+      items: [],
+      total: 0,
       seller: seller,
       code: 0,
     };
 
-    const createOrder = await this.orderRepository.createOrder(newOrderObject);
+    const promiseOrders = new Promise((resolve: any, reject) => {
+      newOrder.items.map(async (item: any) => {
+        await this.orderRepository.itemWriteOff(item).then((itemFound: any) => {
+          newOrderObject.items.push({
+            code: itemFound.code,
+            description: itemFound.description,
+            value: itemFound.value,
+            amount: item.amount,
+          });
+          newOrderObject.total =
+            newOrderObject.total + itemFound.value * item.amount;
+        });
+        resolve();
+      });
+    });
 
-    return createOrder;
+    promiseOrders.then(() => {
+      console.log(newOrderObject);
+      this.orderRepository.createOrder(newOrderObject);
+    });
+
+    //Calcular valor total do pedido
+
+    // Criar pedido
+
+    return { success: "Order Created succesfully" };
+  }
+
+  private async sumPrice(
+    price: number,
+    amount: number,
+    itemPrice: number
+  ): Promise<number> {
+    return price + amount * itemPrice;
   }
 }
 

@@ -38,7 +38,7 @@ class OrderRepository {
     return await this.userModel.findOne({ id: userId }, "name email");
   }
 
-  public async itemWriteOff(item: any): Promise<any> {
+  public async itemWriteOff(item: any) {
     //Encontrar item no estoque verificar valor e dar baixa
     const itemFound = await this.itemModel.findOne({ code: item.code });
 
