@@ -51,7 +51,9 @@ class ItemRepository {
     const limit = 10;
 
     const itemsPaginate = await this.model
-      .find({ description: /description/ })
+      .find({
+        description: { $regex: ".*" + description + ".*", $options: "i" },
+      })
       .limit(limit)
       .skip((page - 1) * limit);
 
