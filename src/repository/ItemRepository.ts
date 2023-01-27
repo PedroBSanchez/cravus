@@ -71,7 +71,7 @@ class ItemRepository {
     editParams: InterfaceEditItem
   ): Promise<UpdateWriteOpResult> {
     return await this.model.updateOne(
-      { id: editParams.id },
+      { _id: editParams.id },
       {
         $set: {
           description: editParams.description,
