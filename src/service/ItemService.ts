@@ -43,6 +43,10 @@ class ItemService {
 
     return edit;
   }
+
+  public async getAll(): Promise<any> {
+    return await this.itemRepository.getAll();
+  }
 }
 
 export { ItemService };

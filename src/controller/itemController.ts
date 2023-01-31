@@ -75,6 +75,12 @@ class ItemController {
 
       return res.status(200).send({ success: "Item edited successfully" });
     });
+
+    this.router.get("/getall", async (req: any, res) => {
+      this.authMiddleware(req, res);
+
+      return await this.itemService.getAll();
+    });
   }
 }
 
