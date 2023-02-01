@@ -40,7 +40,7 @@ class ItemRepository {
   }
 
   public async getAll(): Promise<any> {
-    return await this.model.find();
+    return await this.model.find({});
   }
 
   public async findByDescription(description: string): Promise<any> {
