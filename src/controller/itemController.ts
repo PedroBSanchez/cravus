@@ -79,7 +79,9 @@ class ItemController {
     this.router.get("/getall", async (req: any, res) => {
       this.authMiddleware(req, res);
 
-      return await this.itemService.getAll();
+      const items = await this.itemService.getAll();
+
+      return res.status(200).send(items);
     });
   }
 }
