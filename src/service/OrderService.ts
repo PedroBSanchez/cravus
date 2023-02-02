@@ -62,6 +62,30 @@ class OrderService {
     return { success: "Order Created succesfully" };
   }
 
+  public async paginate(
+    city: string,
+    client: string,
+    page: number
+  ): Promise<any> {
+    const ordersPaginate = await this.orderRepository.paginate(
+      city,
+      client,
+      page
+    );
+
+    return ordersPaginate;
+  }
+
+  public async delete(id: string): Promise<any> {
+    const deleteOrder = await this.orderRepository.delete(id);
+
+    if (deleteOrder.deletedCount != 1) {
+      return { error: "Order not found" };
+    } else {
+      return deleteOrder;
+    }
+  }
+
   private async sumPrice(
     price: number,
     amount: number,

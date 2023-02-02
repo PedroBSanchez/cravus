@@ -52,6 +52,35 @@ class OrderRepository {
     }
     return itemFound;
   }
+
+  public async paginate(
+    city: string,
+    client: string,
+    page: number
+  ): Promise<any> {
+    const limit = 10;
+
+    const ordersPaginate = await this.model
+      .find({
+        city: { $regex: ".*" + city + ".*", $options: "i" },
+        client: { $regex: ".*" + client + ".*", $options: "i" },
+      })
+      .limit(limit)
+      .skip((page - 1) * limit);
+
+    const countItems = await this.model.count();
+
+    return {
+      countItems,
+      totalPages: Math.ceil(countItems / limit),
+      currentPage: page,
+      ordersPaginate,
+    };
+  }
+
+  public async delete(id: string): Promise<DeleteResult> {
+    return await this.model.deleteOne({ _id: id });
+  }
 }
 
 export { OrderRepository };

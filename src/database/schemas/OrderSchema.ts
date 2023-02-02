@@ -2,13 +2,17 @@ import { model, Schema } from "mongoose";
 
 import { Order } from "../../models/Order";
 
+const moment = require("moment-timezone");
+
+const dateBrasil = moment.tz(Date.now(), "America/Sao_Paulo");
+
 const OrderSchema = new Schema<Order>(
   {
     city: { type: String, required: true },
     client: { type: String, required: true },
     items: { type: [Object], required: true },
     total: { type: Number, required: true },
-    createdAt: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: dateBrasil },
     seller: { type: Object, required: true },
     code: { type: Number, default: 0 },
   },

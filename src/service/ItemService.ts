@@ -1,4 +1,3 @@
-import { createNew } from "typescript";
 import {
   InterfaceCreateItem,
   InterfaceEditItem,
