@@ -1,13 +1,13 @@
 import { model, Schema } from "mongoose";
 import { User } from "../../models/User";
 import Bcrypt from "bcrypt";
-
+const moment = require("moment-timezone");
 const UserSchema = new Schema<User>(
   {
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true, select: false },
-    created_at: { type: Date, default: Date.now },
+    created_at: { type: Date, default: moment(Date.now()).utc(-3) },
   },
   {
     collection: "Users",
