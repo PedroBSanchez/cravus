@@ -60,6 +60,11 @@ class UserController {
 
       return res.status(200).send(users);
     });
+
+    this.router.get("/tokenverify", async (req: any, res) => {
+      this.authMiddleware(req, res);
+      return res.status(200).send({ success: "ok" });
+    });
   }
 }
 
