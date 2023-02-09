@@ -8,7 +8,7 @@ const ItemSchema = new Schema<Item>(
     value: { type: Number, required: true },
     amount: { type: Number, required: true },
     code: { type: Number, default: 0 },
-    createdAt: { type: Date, default: moment(Date.now()).utc(-3) },
+    createdAt: { type: Date, default: moment(new Date()).utc(-3) },
   },
   { collection: "Items" }
 );
