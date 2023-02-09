@@ -12,7 +12,7 @@ const OrderSchema = new Schema<Order>(
     total: { type: Number, required: true },
     createdAt: {
       type: Date,
-      default: moment(Date.now()).utc(-3),
+      default: moment(new Date()).utc(-3),
     },
     seller: { type: Object, required: true },
     code: { type: Number, default: 0 },
