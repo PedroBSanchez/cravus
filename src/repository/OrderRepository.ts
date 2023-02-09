@@ -1,4 +1,4 @@
-import { DeleteResult } from "mongodb";
+import { DeleteResult, ObjectId } from "mongodb";
 import { Model, UpdateWriteOpResult } from "mongoose";
 import { CounterModel } from "../database/schemas/CounterSchema";
 import { ItemModel } from "../database/schemas/ItemSchema";
@@ -7,6 +7,8 @@ import { UsersModel } from "../database/schemas/UserSchema";
 import { Item } from "../models/Item";
 import { Order } from "../models/Order";
 import { User } from "../models/User";
+
+const moment = require("moment-timezone");
 
 class OrderRepository {
   private model: Model<Order>;
@@ -66,7 +68,8 @@ class OrderRepository {
         client: { $regex: ".*" + client + ".*", $options: "i" },
       })
       .limit(limit)
-      .skip((page - 1) * limit);
+      .skip((page - 1) * limit)
+      .sort({ cretedAt: -1 });
 
     const countItems = await this.model.count();
 
@@ -80,6 +83,26 @@ class OrderRepository {
 
   public async delete(id: string): Promise<DeleteResult> {
     return await this.model.deleteOne({ _id: id });
+  }
+
+  public async findDayOrders(userId: string): Promise<any> {
+    let dateMidnight = new Date();
+    dateMidnight.setHours(0, 0, 0, 0);
+    dateMidnight = new Date(moment(dateMidnight).utc(-3));
+    let dateNow = new Date(moment(new Date()).utc(-3));
+
+    const idObject = new ObjectId(userId);
+
+    console.log(userId);
+    return await this.model
+      .find({
+        $and: [
+          { createdAt: { $gte: dateMidnight } },
+          { createdAt: { $lte: dateNow } },
+          { "seller._id": idObject },
+        ],
+      })
+      .sort({ createdAt: -1 });
   }
 }
 

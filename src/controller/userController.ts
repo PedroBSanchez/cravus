@@ -5,6 +5,8 @@ import {
   InterfaceLogin,
 } from "../interface/UserInterface";
 import { UserService } from "../service/UserService";
+import Mail from "../email/Mail";
+import OrdersReport from "../jobs/OrdersReport";
 
 const router = Router();
 
@@ -63,6 +65,14 @@ class UserController {
 
     this.router.get("/tokenverify", async (req: any, res) => {
       this.authMiddleware(req, res);
+      return res.status(200).send({ success: "ok" });
+    });
+
+    this.router.get("/teste", async (req: any, res) => {
+      this.authMiddleware(req, res);
+
+      const userId: any = req.userId;
+      OrdersReport(userId.id, new Date(), new Date());
       return res.status(200).send({ success: "ok" });
     });
   }

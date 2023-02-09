@@ -55,7 +55,8 @@ class ItemRepository {
         description: { $regex: ".*" + description + ".*", $options: "i" },
       })
       .limit(limit)
-      .skip((page - 1) * limit);
+      .skip((page - 1) * limit)
+      .sort({ createdAt: -1 });
 
     const countItems = await this.model.count();
 

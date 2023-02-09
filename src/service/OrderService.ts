@@ -86,6 +86,12 @@ class OrderService {
     }
   }
 
+  public async findDayOrders(userId: string): Promise<any> {
+    const dayOrders = await this.orderRepository.findDayOrders(userId);
+
+    return dayOrders;
+  }
+
   private async sumPrice(
     price: number,
     amount: number,

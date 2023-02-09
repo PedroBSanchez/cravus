@@ -67,6 +67,16 @@ class OrderController {
 
       return res.status(200).send({ success: "Order deleted successfully" });
     });
+
+    this.router.get("/dayorders", async (req: any, res) => {
+      this.authMiddleware(req, res);
+
+      const userId: any = req.userId;
+
+      const dayOrders = await this.orderService.findDayOrders(userId.id);
+
+      return res.status(200).send(dayOrders);
+    });
   }
 }
 
