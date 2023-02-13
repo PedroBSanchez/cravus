@@ -1,5 +1,6 @@
 import { config } from "dotenv";
 import express from "express";
+import { clientControllerRoutes } from "./controller/clientController";
 import { itemControllerRoutes } from "./controller/itemController";
 import { orderControllerRoutes } from "./controller/orderController";
 import { userControllerRoutes } from "./controller/userController";
@@ -19,6 +20,7 @@ const main = async () => {
   app.use("/api/users", userControllerRoutes);
   app.use("/api/items", itemControllerRoutes);
   app.use("/api/orders", orderControllerRoutes);
+  app.use("/api/clients", clientControllerRoutes);
 
   ////////
 
