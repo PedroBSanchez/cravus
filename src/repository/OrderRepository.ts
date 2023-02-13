@@ -36,8 +36,9 @@ class OrderRepository {
     return await this.model.create(newOrder);
   }
 
-  public async findUser(userId: object): Promise<any> {
-    return await this.userModel.findOne({ id: userId }, "name email");
+  public async findUser(userId: any): Promise<any> {
+    const idSeller: any = userId.id;
+    return await this.userModel.findOne({ _id: idSeller }, "name email");
   }
 
   public async itemWriteOff(item: any) {
