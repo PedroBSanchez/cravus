@@ -70,7 +70,7 @@ class OrderRepository {
     const ordersPaginate = await this.model
       .find({
         city: { $regex: ".*" + city + ".*", $options: "i" },
-        client: { $regex: ".*" + client + ".*", $options: "i" },
+        "client.name": { $regex: ".*" + client + ".*", $options: "i" },
       })
       .limit(limit)
       .skip((page - 1) * limit)
