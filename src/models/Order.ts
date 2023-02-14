@@ -1,6 +1,6 @@
 class Order {
   public city: string;
-  public client: string;
+  public client: object;
   public items: Array<object>;
   public total: number;
   public createdAt: Date;
@@ -8,7 +8,7 @@ class Order {
   public code: number;
   constructor(
     city: string,
-    client: string,
+    client: object,
     items: Array<object>,
     total: number,
     createdAt: Date,

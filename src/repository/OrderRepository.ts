@@ -1,9 +1,11 @@
 import { DeleteResult, ObjectId } from "mongodb";
 import { Model, UpdateWriteOpResult } from "mongoose";
+import { ClientModel } from "../database/schemas/ClientSchema";
 import { CounterModel } from "../database/schemas/CounterSchema";
 import { ItemModel } from "../database/schemas/ItemSchema";
 import { OrderModel } from "../database/schemas/OrderSchema";
 import { UsersModel } from "../database/schemas/UserSchema";
+import { Client } from "../models/Client";
 import { Item } from "../models/Item";
 import { Order } from "../models/Order";
 import { User } from "../models/User";
@@ -15,12 +17,14 @@ class OrderRepository {
   private itemModel: Model<Item>;
   private counterModel: Model<any>;
   private userModel: Model<User>;
+  private clientModel: Model<Client>;
 
   public constructor() {
     this.model = OrderModel;
     this.itemModel = ItemModel;
     this.counterModel = CounterModel;
     this.userModel = UsersModel;
+    this.clientModel = ClientModel;
   }
 
   public async createOrder(newOrder: any) {
@@ -104,6 +108,10 @@ class OrderRepository {
         ],
       })
       .sort({ createdAt: -1 });
+  }
+
+  public async findClient(clientId: string): Promise<any> {
+    return await this.clientModel.find({ _id: clientId });
   }
 }
 

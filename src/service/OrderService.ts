@@ -13,10 +13,16 @@ class OrderService {
     //Pegar informações do Vendedor
     const seller = await this.orderRepository.findUser(userId);
 
+    const client = await this.orderRepository.findClient(newOrder.client);
+
     var orderItems: any = [];
 
     if (!seller) {
       return { error: "Seller not found" };
+    }
+
+    if (!client) {
+      return { error: "Client not found" };
     }
 
     //Dar Baixa em cada item o pedido
@@ -27,7 +33,7 @@ class OrderService {
 
     let newOrderObject: any = {
       city: newOrder.city,
-      client: newOrder.client,
+      client: client,
       items: [],
       total: 0,
       seller: seller,

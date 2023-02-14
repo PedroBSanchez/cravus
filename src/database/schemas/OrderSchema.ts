@@ -7,7 +7,7 @@ const moment = require("moment-timezone");
 const OrderSchema = new Schema<Order>(
   {
     city: { type: String, required: true },
-    client: { type: String, required: true },
+    client: { type: Object, required: true },
     items: { type: [Object], required: true },
     total: { type: Number, required: true },
     createdAt: {
