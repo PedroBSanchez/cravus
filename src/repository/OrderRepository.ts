@@ -111,7 +111,7 @@ class OrderRepository {
   }
 
   public async findClient(clientId: string): Promise<any> {
-    return await this.clientModel.find({ _id: clientId });
+    return await this.clientModel.findOne({ _id: clientId });
   }
 }
 
