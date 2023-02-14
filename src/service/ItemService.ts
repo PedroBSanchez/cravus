@@ -2,6 +2,7 @@ import {
   InterfaceCreateItem,
   InterfaceEditItem,
 } from "../interface/ItemsInterface";
+import { Item } from "../models/Item";
 import { ItemRepository } from "../repository/ItemRepository";
 
 class ItemService {
@@ -45,6 +46,21 @@ class ItemService {
 
   public async getAll(): Promise<any> {
     return await this.itemRepository.getAll();
+  }
+
+  public async totalValue(): Promise<any> {
+    let valorTotal = 0;
+    const allItems = await this.itemRepository.findAll();
+
+    allItems.forEach((item: Item) => {
+      valorTotal += item.value * item.amount;
+    });
+
+    if (valorTotal <= 0) {
+      valorTotal = 0;
+    }
+
+    return { total: valorTotal };
   }
 }
 

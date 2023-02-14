@@ -82,6 +82,10 @@ class ItemRepository {
       }
     );
   }
+
+  public async findAll(): Promise<any> {
+    return await this.model.find({});
+  }
 }
 
 export { ItemRepository };

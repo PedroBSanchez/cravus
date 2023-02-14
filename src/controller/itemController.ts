@@ -83,6 +83,14 @@ class ItemController {
 
       return res.status(200).send(items);
     });
+
+    this.router.get("/totalvalue", async (req: any, res) => {
+      this.authMiddleware(req, res);
+
+      const totalValue = await this.itemService.totalValue();
+
+      return res.status(200).send(totalValue);
+    });
   }
 }
 
