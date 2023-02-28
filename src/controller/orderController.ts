@@ -80,6 +80,21 @@ class OrderController {
 
       return res.status(200).send(dayOrders);
     });
+
+    this.router.get("/selledByMonth/:year", async (req: any, res) => {
+      this.authMiddleware(req, res);
+
+      const year: string = req.params.year;
+      const yearNow = new Date().getFullYear();
+
+      if (parseInt(year) > yearNow) {
+        return res.status(400).send({ error: "Invalid year" });
+      }
+
+      const monthSelled = await this.orderService.selledByMonth(parseInt(year));
+
+      return res.status(200).send(monthSelled);
+    });
   }
 }
 

@@ -113,6 +113,33 @@ class OrderRepository {
   public async findClient(clientId: string): Promise<any> {
     return await this.clientModel.findOne({ _id: clientId });
   }
+
+  public async findOrderById(id: string): Promise<any> {
+    return await this.model.findOne({ _id: id });
+  }
+
+  public async restoreItemAmount(code: string, amount: number): Promise<any> {
+    const itemToRestore = await this.itemModel.findOne({ code: code });
+
+    if (!itemToRestore) {
+      return { error: "Item not found" };
+    }
+
+    return await this.itemModel.updateOne(
+      { code: code },
+      {
+        $set: {
+          amount: itemToRestore.amount + amount,
+        },
+      }
+    );
+  }
+
+  public async findByDate(start: Date, end: Date): Promise<any> {
+    return await this.model.find({
+      $and: [{ createdAt: { $gte: start } }, { createdAt: { $lte: end } }],
+    });
+  }
 }
 
 export { OrderRepository };

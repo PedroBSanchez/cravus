@@ -83,6 +83,19 @@ class OrderService {
   }
 
   public async delete(id: string): Promise<any> {
+    //Add amount to the products
+    const orderToDelete = await this.orderRepository.findOrderById(id);
+
+    if (!orderToDelete) {
+      return { error: "Order not found" };
+    }
+
+    await Promise.all(
+      orderToDelete.items.map(async (item: any, index: number) => {
+        await this.orderRepository.restoreItemAmount(item.code, item.amount);
+      })
+    );
+
     const deleteOrder = await this.orderRepository.delete(id);
 
     if (deleteOrder.deletedCount != 1) {
@@ -96,6 +109,60 @@ class OrderService {
     const dayOrders = await this.orderRepository.findDayOrders(userId);
 
     return dayOrders;
+  }
+
+  public async selledByMonth(year: number): Promise<any> {
+    let monthsToCheck = [
+      { month: "01", monthName: "Janeiro", totalSelled: 0 },
+      { month: "02", monthName: "Fevereiro", totalSelled: 0 },
+      { month: "03", monthName: "Março", totalSelled: 0 },
+      { month: "04", monthName: "Abril", totalSelled: 0 },
+      { month: "05", monthName: "Maio", totalSelled: 0 },
+      { month: "06", monthName: "Junho", totalSelled: 0 },
+      { month: "07", monthName: "Julho", totalSelled: 0 },
+      { month: "08", monthName: "Agosto", totalSelled: 0 },
+      { month: "09", monthName: "Setembro", totalSelled: 0 },
+      { month: "10", monthName: "Outubro", totalSelled: 0 },
+      { month: "11", monthName: "Novembro", totalSelled: 0 },
+      { month: "12", monthName: "Dezembro", totalSelled: 0 },
+    ];
+    let totalSelledYear = 0;
+
+    //Verificar se o ano é o ano atual
+    let yearNow = new Date().getFullYear();
+    let monthNow = new Date().getMonth() + 1;
+
+    if (year == yearNow && monthNow != 12) {
+      monthsToCheck = monthsToCheck.slice(0, monthNow);
+    }
+
+    await Promise.all(
+      monthsToCheck.map(async (month, index) => {
+        //Pegar último dia um mês
+
+        let firstDayMonth = new Date(`${year}-${month.month}-01`);
+        let lastDayMonth = new Date(
+          `${year}-${month.month}-${new Date(
+            year,
+            parseInt(month.month),
+            0
+          ).getDate()}`
+        );
+
+        const monthOrders = await this.orderRepository.findByDate(
+          firstDayMonth,
+          lastDayMonth
+        );
+
+        monthOrders.forEach((element: any, index: number) => {
+          month.totalSelled += element.total;
+        });
+
+        totalSelledYear += month.totalSelled;
+      })
+    );
+
+    return { totalSelledYear, monthsToCheck, year };
   }
 
   private async sumPrice(
