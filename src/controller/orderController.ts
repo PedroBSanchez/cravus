@@ -95,6 +95,25 @@ class OrderController {
 
       return res.status(200).send(monthSelled);
     });
+
+    this.router.get("/selledInMonth/:year/:month", async (req: any, res) => {
+      this.authMiddleware(req, res);
+
+      const year: string = req.params.year;
+      const month: string = req.params.month;
+      const yearNow = new Date().getFullYear();
+      if (parseInt(year) > yearNow) {
+        return res.status(400).send({ error: "Invalid year" });
+      }
+
+      if (parseInt(month) > 12) {
+        return res.status(400).send({ error: "Invalid month" });
+      }
+
+      const selledInMonth = await this.orderService.selledInMonth(year, month);
+
+      return res.status(200).send(selledInMonth);
+    });
   }
 }
 

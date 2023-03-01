@@ -165,6 +165,67 @@ class OrderService {
     return { totalSelledYear, monthsToCheck, year };
   }
 
+  public async selledInMonth(year: string, month: string): Promise<any> {
+    const lastDayMonth = new Date(
+      `${year}-${month}-${new Date(
+        parseInt(year),
+        parseInt(month),
+        0
+      ).getDate()} 20:59:59`
+    );
+
+    let totalSelledMonth = 0;
+    let weeks = [
+      {
+        week: "Semana 1",
+        start: new Date(`${year}-${parseInt(month)}-01`),
+        end: new Date(`${year}-${month}-07 20:59:59`),
+        totalSelled: 0,
+      },
+      {
+        week: "Semana 2",
+        start: new Date(`${year}-${month}-07 21:00:00`),
+        end: new Date(`${year}-${month}-14 20:59:59`),
+        totalSelled: 0,
+      },
+      {
+        week: "Semana 3",
+        start: new Date(`${year}-${month}-14 21:00:00`),
+        end: new Date(`${year}-${month}-21 20:59:59`),
+        totalSelled: 0,
+      },
+      {
+        week: "Semana 4",
+        start: new Date(`${year}-${month}-21 21:00:00`),
+        end: lastDayMonth,
+        totalSelled: 0,
+      },
+    ];
+
+    await Promise.all(
+      weeks.map(async (week, index) => {
+        await this.orderRepository
+          .findByDate(week.start, week.end)
+          .then((orders: any) => {
+            if (orders.length > 0) {
+              let totalSelledWeek = 0;
+              orders.forEach((order: any, index: number) => {
+                totalSelledWeek += order.total;
+              });
+
+              week.totalSelled = totalSelledWeek;
+            }
+          });
+      })
+    ).then(() => {
+      weeks.forEach((week) => {
+        totalSelledMonth += week.totalSelled;
+      });
+    });
+
+    return { totalSelledMonth, weeks };
+  }
+
   private async sumPrice(
     price: number,
     amount: number,
