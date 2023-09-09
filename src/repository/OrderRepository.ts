@@ -76,7 +76,7 @@ class OrderRepository {
       .skip((page - 1) * limit)
       .sort({ cretedAt: -1 });
 
-    const countItems = await this.model.count();
+    const countItems = await (await this.model.find({})).length;
 
     return {
       countItems,
