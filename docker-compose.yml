@@ -12,6 +12,8 @@ services:
       - .env
     logging:
       driver: none
+    #ports:
+    #- 27017:27017
     environment:
       - MONGO_INITDB_ROOT_USERNAME=${MONGODB_USERNAME}
       - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD}
