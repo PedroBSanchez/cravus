@@ -58,7 +58,7 @@ class ItemRepository {
       .skip((page - 1) * limit)
       .sort({ createdAt: -1 });
 
-    const countItems = await this.model.count();
+    const countItems = await this.model.find({}).count();
 
     return {
       countItems,
