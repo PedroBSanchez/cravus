@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 import { User } from "../../models/User";
-import Bcrypt from "bcrypt";
+import Bcrypt from "bcryptjs";
 const moment = require("moment-timezone");
 const UserSchema = new Schema<User>(
   {

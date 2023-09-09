@@ -15,7 +15,7 @@ const moment = require("moment-timezone");
 class OrderRepository {
   private model: Model<Order>;
   private itemModel: Model<Item>;
-  private counterModel: Model<any>;
+  private counterModel: any;
   private userModel: Model<User>;
   private clientModel: Model<Client>;
 

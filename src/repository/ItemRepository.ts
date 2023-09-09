@@ -10,7 +10,7 @@ import { Item } from "../models/Item";
 
 class ItemRepository {
   private model: Model<Item>;
-  private counterModel: Model<any>;
+  private counterModel: any;
 
   constructor() {
     this.model = ItemModel;

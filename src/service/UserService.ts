@@ -3,7 +3,7 @@ import {
   InterfaceLogin,
 } from "../interface/UserInterface";
 import { UserRepository } from "../repository/UserRepository";
-import Bcrypt from "bcrypt";
+import Bcrypt from "bcryptjs";
 import Jwt, { verify } from "jsonwebtoken";
 import { config } from "dotenv";
 

@@ -10,7 +10,7 @@ import {
 
 class ClientRepository {
   private model: Model<Client>;
-  private counterModel: Model<any>;
+  private counterModel: any;
 
   constructor() {
     this.model = ClientModel;
