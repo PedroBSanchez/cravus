@@ -2,6 +2,7 @@ import { Router } from "express";
 import { Request, Response } from "express";
 import {
   InterfaceCreateItem,
+  InterfaceEditAmountItem,
   InterfaceEditItem,
 } from "../interface/ItemsInterface";
 import { ItemService } from "../service/ItemService";
@@ -90,6 +91,19 @@ class ItemController {
       const totalValue = await this.itemService.totalValue();
 
       return res.status(200).send(totalValue);
+    });
+
+    this.router.put("/editamount", async (req: any, res) => {
+      this.authMiddleware(req, res);
+      const editAmountParams: InterfaceEditAmountItem = req.body;
+
+      const edit = await this.itemService.editAmount(editAmountParams);
+
+      if (edit.error) {
+        return res.status(400).send(edit);
+      }
+
+      return res.status(200).send({ success: "Item edited successfully" });
     });
   }
 }

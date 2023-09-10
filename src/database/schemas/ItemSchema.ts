@@ -9,6 +9,7 @@ const ItemSchema = new Schema<Item>(
     amount: { type: Number, required: true },
     code: { type: Number, default: 0 },
     createdAt: { type: Date, default: moment(new Date()).utc(-3) },
+    isActive: { type: Boolean, default: true },
   },
   { collection: "Items" }
 );

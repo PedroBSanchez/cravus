@@ -9,7 +9,12 @@ interface InterfaceEditItem {
   id: string;
   description: string;
   value: number;
+  isActive: boolean | null;
+}
+
+interface InterfaceEditAmountItem {
+  id: string;
   amount: number;
 }
 
-export { InterfaceCreateItem, InterfaceEditItem };
+export { InterfaceCreateItem, InterfaceEditItem, InterfaceEditAmountItem };

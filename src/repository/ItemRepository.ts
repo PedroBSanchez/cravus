@@ -4,6 +4,7 @@ import { CounterModel } from "../database/schemas/CounterSchema";
 import { ItemModel } from "../database/schemas/ItemSchema";
 import {
   InterfaceCreateItem,
+  InterfaceEditAmountItem,
   InterfaceEditItem,
 } from "../interface/ItemsInterface";
 import { Item } from "../models/Item";
@@ -40,7 +41,7 @@ class ItemRepository {
   }
 
   public async getAll(): Promise<any> {
-    return await this.model.find({});
+    return await this.model.find({ isActive: true });
   }
 
   public async findByDescription(description: string): Promise<any> {
@@ -56,7 +57,7 @@ class ItemRepository {
       })
       .limit(limit)
       .skip((page - 1) * limit)
-      .sort({ createdAt: -1 });
+      .sort({ description: "asc" });
 
     const countItems = await (await this.model.find({})).length;
 
@@ -77,7 +78,7 @@ class ItemRepository {
         $set: {
           description: editParams.description,
           value: editParams.value,
-          amount: editParams.amount,
+          isActive: editParams.isActive,
         },
       }
     );
@@ -85,6 +86,19 @@ class ItemRepository {
 
   public async findAll(): Promise<any> {
     return await this.model.find({});
+  }
+
+  public async editAmount(
+    editParams: InterfaceEditAmountItem
+  ): Promise<UpdateWriteOpResult> {
+    return await this.model.updateOne(
+      { _id: editParams.id },
+      {
+        $set: {
+          amount: editParams.amount,
+        },
+      }
+    );
   }
 }
 

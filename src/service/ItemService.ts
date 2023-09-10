@@ -1,5 +1,6 @@
 import {
   InterfaceCreateItem,
+  InterfaceEditAmountItem,
   InterfaceEditItem,
 } from "../interface/ItemsInterface";
 import { Item } from "../models/Item";
@@ -61,6 +62,16 @@ class ItemService {
     }
 
     return { total: valorTotal };
+  }
+
+  public async editAmount(editParams: InterfaceEditAmountItem): Promise<any> {
+    const edit = await this.itemRepository.editAmount(editParams);
+
+    if (edit.modifiedCount < 1) {
+      return { error: "Item not found" };
+    }
+
+    return edit;
   }
 }
 
