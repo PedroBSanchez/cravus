@@ -5,6 +5,7 @@ import { itemControllerRoutes } from "./controller/itemController";
 import { orderControllerRoutes } from "./controller/orderController";
 import { userControllerRoutes } from "./controller/userController";
 import { connectToDatabase } from "./database/Mongo";
+import { chControllerRoutes } from "./controller/chController";
 
 const cors = require("cors");
 
@@ -21,6 +22,7 @@ const main = async () => {
   app.use("/api/items", itemControllerRoutes);
   app.use("/api/orders", orderControllerRoutes);
   app.use("/api/clients", clientControllerRoutes);
+  app.use("/api/chs", chControllerRoutes);
 
   ////////
 

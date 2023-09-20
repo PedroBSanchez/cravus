@@ -48,6 +48,9 @@ class OrderController {
       const city = req.query.city ? req.query.city : "";
       const client = req.query.client ? req.query.client : "";
 
+      const startDate: Date = new Date(req.query.startdate);
+      const endDate: Date = new Date(req.query.enddate);
+
       const ordersPaginate = await this.orderService.paginate(
         city,
         client,
