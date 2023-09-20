@@ -47,11 +47,31 @@ class ChRepository {
 
     const countItems = await (await this.model.find({})).length;
 
+    let totalValue = 0;
+    await this.model
+      .aggregate([
+        {
+          $group: {
+            _id: null,
+            total: { $sum: "$value" },
+          },
+        },
+      ])
+      .then((result) => {
+        if (result.length > 0) {
+          totalValue = result[0].total;
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     return {
       countItems,
       totalPages: Math.ceil(countItems / limit),
       currentPage: page,
       chsPaginate,
+      totalValue: totalValue,
     };
   }
 }
