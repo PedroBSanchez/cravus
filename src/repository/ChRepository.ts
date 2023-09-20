@@ -31,13 +31,15 @@ class ChRepository {
     page: number,
     startDate: Date,
     endDate: Date,
-    client: string
+    client: string,
+    isOpen: boolean
   ) {
     const limit = 10;
 
     const chsPaginate = await this.model
       .find({
         client: { $regex: ".*" + client + ".*", $options: "i" },
+        isOpen: isOpen,
       })
       .limit(limit)
       .skip((page - 1) * limit)

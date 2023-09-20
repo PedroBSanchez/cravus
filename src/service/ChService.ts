@@ -26,9 +26,16 @@ class ChService {
     page: number,
     startDate: Date,
     endDate: Date,
-    client: string
+    client: string,
+    isOpen: boolean
   ) {
-    return await this.repository.paginate(page, startDate, endDate, client);
+    return await this.repository.paginate(
+      page,
+      startDate,
+      endDate,
+      client,
+      isOpen
+    );
   }
 }
 

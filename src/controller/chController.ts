@@ -59,12 +59,14 @@ class ChController {
         const startDate: Date = new Date(req.body.startDate);
         const endDate: Date = new Date(req.body.endDate);
         const client: string = req.body.client;
+        const isOpen: boolean = req.body.isOpen;
 
         const chs = await this.chService.paginate(
           page,
           startDate,
           endDate,
-          client
+          client,
+          isOpen
         );
 
         return res.status(200).send(chs);
