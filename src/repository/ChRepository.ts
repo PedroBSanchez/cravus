@@ -38,8 +38,12 @@ class ChRepository {
 
     const chsPaginate = await this.model
       .find({
-        client: { $regex: ".*" + client + ".*", $options: "i" },
-        isOpen: isOpen,
+        $and: [
+          { client: { $regex: ".*" + client + ".*", $options: "i" } },
+          { isOpen: isOpen },
+          { depositDate: { $gte: startDate.toISOString() } },
+          { depositDate: { $lte: endDate.toISOString() } },
+        ],
       })
       .limit(limit)
       .skip((page - 1) * limit)
@@ -73,6 +77,14 @@ class ChRepository {
       chsPaginate,
       totalValue: totalValue,
     };
+  }
+
+  public async closeChs(): Promise<any> {
+    const now = new Date();
+    return await this.model.updateMany(
+      { depositDate: { $lte: now.toISOString() } },
+      { $set: { isOpen: false } }
+    );
   }
 }
 

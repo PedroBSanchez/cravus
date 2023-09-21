@@ -6,6 +6,7 @@ import { orderControllerRoutes } from "./controller/orderController";
 import { userControllerRoutes } from "./controller/userController";
 import { connectToDatabase } from "./database/Mongo";
 import { chControllerRoutes } from "./controller/chController";
+import { StartCron } from "./cron/StartCron";
 
 const cors = require("cors");
 
@@ -25,6 +26,8 @@ const main = async () => {
   app.use("/api/chs", chControllerRoutes);
 
   ////////
+
+  StartCron.start();
 
   const port = process.env.PORT || 8000;
   app.listen(port, () => console.log(`Listening on port ${port}`));
