@@ -65,12 +65,12 @@ class ChRepository {
       .aggregate([
         {
           $match: {
-            client: { $regex: ".*" + client + ".*", $options: "i" },
-            isOpen: isOpen,
-            depositDate: {
-              $gte: startDate.toISOString(),
-              $lte: endDate.toISOString(),
-            },
+            $and: [
+              { client: { $regex: ".*" + client + ".*", $options: "i" } },
+              { isOpen: isOpen },
+              { depositDate: { $gte: startDate.toISOString() } },
+              { depositDate: { $lte: endDate.toISOString() } },
+            ],
           },
         },
         {
