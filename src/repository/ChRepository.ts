@@ -47,13 +47,32 @@ class ChRepository {
       })
       .limit(limit)
       .skip((page - 1) * limit)
-      .sort({ depositDate: "desc" });
+      .sort({ depositDate: "asc" });
 
-    const countItems = await (await this.model.find({})).length;
+    const countItems = await (
+      await this.model.find({
+        $and: [
+          { client: { $regex: ".*" + client + ".*", $options: "i" } },
+          { isOpen: isOpen },
+          { depositDate: { $gte: startDate.toISOString() } },
+          { depositDate: { $lte: endDate.toISOString() } },
+        ],
+      })
+    ).length;
 
     let totalValue = 0;
     await this.model
       .aggregate([
+        {
+          $match: {
+            client: { $regex: ".*" + client + ".*", $options: "i" },
+            isOpen: isOpen,
+            depositDate: {
+              $gte: startDate.toISOString(),
+              $lte: endDate.toISOString(),
+            },
+          },
+        },
         {
           $group: {
             _id: null,
