@@ -5,7 +5,7 @@ class StartCron {
   constructor() {}
 
   public static start() {
-    cron.schedule("0 * * * *", () => {
+    cron.schedule("0 21 * * *", () => {
       CloseChs();
     });
   }
