@@ -30,8 +30,12 @@ class ClientRepository {
     return await this.model.create(newClient);
   }
 
-  public async getAll(): Promise<any> {
-    return await this.model.find({}).sort({ name: 1 });
+  public async getAll(clientName: string): Promise<any> {
+    return await this.model
+      .find({
+        name: { $regex: ".*" + clientName + ".*", $options: "i" },
+      })
+      .sort({ name: 1 });
   }
 
   public async edit(

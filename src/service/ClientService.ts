@@ -15,8 +15,8 @@ class ClientService {
     return await this.clientRepository.create(newClient);
   }
 
-  public async getAll(): Promise<any> {
-    return await this.clientRepository.getAll();
+  public async getAll(clientName: string): Promise<any> {
+    return await this.clientRepository.getAll(clientName);
   }
 
   public async edit(
