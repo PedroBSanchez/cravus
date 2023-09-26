@@ -71,12 +71,16 @@ class OrderService {
   public async paginate(
     city: string,
     client: string,
-    page: number
+    page: number,
+    startDate: Date,
+    endDate: Date
   ): Promise<any> {
     const ordersPaginate = await this.orderRepository.paginate(
       city,
       client,
-      page
+      page,
+      startDate,
+      endDate
     );
 
     return ordersPaginate;

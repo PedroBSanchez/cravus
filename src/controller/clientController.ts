@@ -38,7 +38,7 @@ class ClientController {
     this.router.get("/getall", async (req: any, res) => {
       this.authMiddleware(req, res);
 
-      const clientName: string = req.query.client;
+      const clientName: string = req.query.client || "";
 
       const clients = await this.clientService.getAll(clientName);
 

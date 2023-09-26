@@ -7,6 +7,8 @@ import { userControllerRoutes } from "./controller/userController";
 import { connectToDatabase } from "./database/Mongo";
 import { chControllerRoutes } from "./controller/chController";
 import { StartCron } from "./cron/StartCron";
+import { CounterModel } from "./database/schemas/CounterSchema";
+import { Model } from "mongoose";
 
 const cors = require("cors");
 
@@ -16,6 +18,19 @@ const main = async () => {
   const app = express();
   app.use(express.json());
   app.use(cors());
+
+  // Verificar Contadores //
+  const counterModel: any = CounterModel;
+  const countersArray = ["clientCounter", "itemCounter", "orderCounter"];
+
+  countersArray.forEach(async (counter) => {
+    let counterInDb: any = await counterModel.findOne({ name: counter });
+
+    if (!counterInDb) {
+      console.log("Counter " + counter + " Created");
+      await counterModel.create({ name: counter, seq: 1 });
+    }
+  });
 
   //Rotas//
 

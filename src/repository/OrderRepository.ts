@@ -63,7 +63,9 @@ class OrderRepository {
   public async paginate(
     city: string,
     client: string,
-    page: number
+    page: number,
+    startDate: Date,
+    endDate: Date
   ): Promise<any> {
     const limit = 10;
 
@@ -71,12 +73,25 @@ class OrderRepository {
       .find({
         city: { $regex: ".*" + city + ".*", $options: "i" },
         "client.name": { $regex: ".*" + client + ".*", $options: "i" },
+        createdAt: {
+          $gte: startDate.toISOString(),
+          $lte: endDate.toISOString(),
+        },
       })
       .limit(limit)
       .skip((page - 1) * limit)
-      .sort({ cretedAt: -1 });
+      .sort({ code: 1 });
 
-    const countItems = await (await this.model.find({})).length;
+    const countItems = await (
+      await this.model.find({
+        city: { $regex: ".*" + city + ".*", $options: "i" },
+        "client.name": { $regex: ".*" + client + ".*", $options: "i" },
+        createdAt: {
+          $gte: startDate.toISOString(),
+          $lte: endDate.toISOString(),
+        },
+      })
+    ).length;
 
     return {
       countItems,

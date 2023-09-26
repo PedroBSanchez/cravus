@@ -54,7 +54,9 @@ class OrderController {
       const ordersPaginate = await this.orderService.paginate(
         city,
         client,
-        page
+        page,
+        startDate,
+        endDate
       );
 
       return res.status(200).send(ordersPaginate);
