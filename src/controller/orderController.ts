@@ -27,8 +27,6 @@ class OrderController {
       const newOrder: InterfaceOrder = req.body;
 
       const userId: any = req.userId;
-      console.log("_____");
-      console.log(userId);
 
       const orderSave = await this.orderService.create(newOrder, userId);
 

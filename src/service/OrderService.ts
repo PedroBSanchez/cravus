@@ -1,7 +1,7 @@
 import { ItemModel } from "../database/schemas/ItemSchema";
 import { InterfaceOrder } from "../interface/OrderInterface";
 import { OrderRepository } from "../repository/OrderRepository";
-
+const moment = require("moment-timezone");
 class OrderService {
   private orderRepository: OrderRepository;
 
@@ -31,6 +31,7 @@ class OrderService {
       return { error: "Order without items" };
     }
 
+    const dateNow = new Date(moment(new Date()).utc(-3));
     let newOrderObject: any = {
       city: newOrder.city,
       client: client,
@@ -38,6 +39,7 @@ class OrderService {
       total: 0,
       seller: seller,
       code: 0,
+      createdAt: dateNow,
     };
 
     const promiseOrders = new Promise((resolve: any, reject) => {
