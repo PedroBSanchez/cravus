@@ -31,7 +31,9 @@ class OrderService {
       return { error: "Order without items" };
     }
 
-    const dateNow = new Date(moment(new Date()).utc(-3));
+    let dateNow = new Date();
+    dateNow.setHours(dateNow.getHours() - 3);
+
     let newOrderObject: any = {
       city: newOrder.city,
       client: client,
