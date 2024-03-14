@@ -44,7 +44,7 @@ class OrderService {
       createdAt: dateNow,
     };
 
-    const promiseOrders = new Promise((resolve: any, reject) => {
+    await Promise.all(
       newOrder.items.map(async (item: any) => {
         await this.orderRepository.itemWriteOff(item).then((itemFound: any) => {
           newOrderObject.items.push({
@@ -56,14 +56,10 @@ class OrderService {
           newOrderObject.total =
             newOrderObject.total + itemFound.value * item.amount;
         });
-        resolve();
-      });
-    });
+      })
+    );
 
-    promiseOrders.then(() => {
-      console.log(newOrderObject);
-      this.orderRepository.createOrder(newOrderObject);
-    });
+    await this.orderRepository.createOrder(newOrderObject);
 
     //Calcular valor total do pedido
 
