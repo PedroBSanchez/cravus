@@ -42,6 +42,8 @@ const main = async () => {
 
   ////////
 
+  app.use(cors());
+
   StartCron.start();
 
   const port = process.env.PORT || 8000;
